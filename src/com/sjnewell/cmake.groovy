@@ -8,6 +8,10 @@ def setCommonFlags(flags) {
     cmakeCommonFlags = flags
 }
 
+def setCMakeFlags(flags) {
+    cmakeFlags = flags
+}
+
 def setCFlags(flags) {
     cmakeCFlags = flags
 }
@@ -41,17 +45,20 @@ def configure(src) {
     }
 
     def args = ""
+    if(cmakeFlags) {
+        args = cmakeFlags
+    }
     if(ex_cflags) {
-        args = "-DCMAKE_C_FLAGS=\"${ex_cflags}\""
+        args += " -DCMAKE_C_FLAGS=\"${ex_cflags}\""
     }
     if(ex_cxxflags) {
-        args = "${args} -DCMAKE_CXX_FLAGS=\"${ex_cxxflags}\""
+        args += " ${args} -DCMAKE_CXX_FLAGS=\"${ex_cxxflags}\""
     }
     if(cmakeCc) {
-        args = "${args} -DCMAKE_C_COMPILER=${cmakeCc}"
+        args += " ${args} -DCMAKE_C_COMPILER=${cmakeCc}"
     }
     if(cmakeCxx) {
-        args = "${args} -DCMAKE_CXX_COMPILER=${cmakeCxx}"
+        args += " ${args} -DCMAKE_CXX_COMPILER=${cmakeCxx}"
     }
     sh "cmake ${args} ${src}"
 }
