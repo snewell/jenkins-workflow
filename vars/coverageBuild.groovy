@@ -1,3 +1,18 @@
+// Build a C/C++ project configured with CMake and gather the code coverage
+// report after running tests.  The coverage report will be available in the
+// archived artifacts after the pipeline completes (look in the root directory
+// for index.html).
+//
+// DEPENDENCIES:
+//   - cmake
+//   - make
+//   - lcov
+//   - gcov
+//
+// ASSUMPTIONS:
+//   - The default toolchain accepts the "-coverage" flag
+//   - Only one level of filtering is required (*_test.cpp)
+
 def call(body) {
     // evaluate the body block, and collect configuration into the object
     def config = [:]
