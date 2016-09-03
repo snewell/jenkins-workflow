@@ -1,7 +1,4 @@
-// Build a C/C++ project configured with CMake and gather the code coverage
-// report after running tests.  The coverage report will be available in the
-// archived artifacts after the pipeline completes (look in the root directory
-// for index.html).
+// Build a C/C++ project configured with CMake using a Clang's sanitizers.
 //
 // DEPENDENCIES:
 //   - cmake
@@ -18,8 +15,6 @@
 //    git = '/path/to/git/uri'
 //    sanitizer = 'address'
 //  }
-//
-// ASSUMPTIONS:
 //
 
 def call(body) {
