@@ -39,9 +39,12 @@ def call(body) {
         stage('Configure') {
             dir('build') {
                 deleteDir()
+                def commonFlags = compileFlags.usefulFlags()
+
                 cmake = new com.sjnewell.cmake()
                 cmake.setPrefix('scan-build')
                 cmake.useNinja()
+                cmake.setCommonFlags(commonFlags)
                 cmake.configure(src)
             }
         }

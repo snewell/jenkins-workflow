@@ -5,22 +5,21 @@
 //
 // DEPENDENCIES:
 //   - cmake
-//   - make
-//   - lcov
-//   - gcov
+//   - ninja
+//   - clang
 //
 // USAGE:
 //   You need to provide a valid git uri Jenkins can handle (this value is
-//   passed directly to Jenkins's git command).
+//   passed directly to Jenkins's git command).  You'll also need to provide
+//   a sanitizer for clang to use.
 //
 // EXAMPLE:
-//  coverageBuild {
+//  sanitizerBuild {
 //    git = '/path/to/git/uri'
+//    sanitizer = 'address'
 //  }
-
+//
 // ASSUMPTIONS:
-//   - The default toolchain accepts the "-coverage" flag
-//   - Only one level of filtering is required (*_test.cpp)
 //
 
 def call(body) {
@@ -39,33 +38,26 @@ def call(body) {
         stage('Configure') {
             dir('build') {
                 deleteDir()
-                def commonFlags = compileFlags.usefulFlags() + ' ' + compileFlags.debugFlags() + ' ' + compileFlags.warningFlags() + ' -coverage'
+                def commonFlags = compileFlags.usefulFlags() + ' ' + compileFlags.debugFlags() + ' ' + compileFlags.warningFlags() + ' ' + compileFlags.sanitizerFlags(config.sanitizer)
 
                 cmake = new com.sjnewell.cmake()
                 cmake.setCommonFlags(commonFlags)
+                cmake.setCCompiler("clang")
+                cmake.setCxxCompiler("clang++")
+                cmake.useNinja()
                 cmake.configure(src)
             }
         }
 
         stage('Build') {
             dir('build') {
-                sh 'make'
+                sh 'ninja'
             }
         }
 
         stage('Test') {
             dir('build') {
-                sh 'make test'
-            }
-        }
-
-        stage('Coverage') {
-            dir('build') {
-                coverage = new com.sjnewell.lcov()
-                coverage.gather(src, 'coverage.info')
-                coverage.trim('coverage.info', 'coverage.info.trimmed', '*_test.cpp')
-                coverage.process('coverage.info.trimmed', 'coverage')
-                archiveArtifacts 'coverage/**'
+                sh 'ninja test'
             }
         }
     }
