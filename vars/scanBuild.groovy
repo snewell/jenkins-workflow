@@ -15,30 +15,15 @@ def call(body) {
             dir('build') {
                 deleteDir()
                 cmake = new com.sjnewell.cmake()
-                cmake.setCxxFlags("-coverage")
+                cmake.setPrefix('scan-build')
+                cmake.useNinja()
                 cmake.configure(src)
             }
         }
 
         stage('Build') {
             dir('build') {
-                sh 'make'
-            }
-        }
-
-        stage('Test') {
-            dir('build') {
-                sh 'make test'
-            }
-        }
-
-        stage('Coverage') {
-            dir('build') {
-                coverage = new com.sjnewell.lcov()
-                coverage.gather(src, 'coverage.info')
-                coverage.trim('coverage.info', 'coverage.info.trimmed', '*_test.cpp')
-                coverage.process('coverage.info.trimmed', 'coverage')
-                archiveArtifacts 'coverage/**'
+                sh 'scan-build -o scan-results ninja'
             }
         }
     }
