@@ -9,9 +9,19 @@
 //   - lcov
 //   - gcov
 //
+// USAGE:
+//   You need to provide a valid git uri Jenkins can handle (this value is
+//   passed directly to Jenkins's git command).
+//
+// EXAMPLE:
+//  coverageBuild {
+//    git = '/path/to/git/uri'
+//  }
+
 // ASSUMPTIONS:
 //   - The default toolchain accepts the "-coverage" flag
 //   - Only one level of filtering is required (*_test.cpp)
+//
 
 def call(body) {
     // evaluate the body block, and collect configuration into the object
