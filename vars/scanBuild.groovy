@@ -30,29 +30,17 @@ def call(body) {
     body.delegate = config
     body()
 
-    node {
-        def src = pwd()
-        stage('Checkout') {
-            git "${config.git}"
-        }
+    def flags = new com.sjnewell.compileFlags()
+    genericBuild {
+        steps = ['checkout', 'configure', 'build']
 
-        stage('Configure') {
-            dir('build') {
-                deleteDir()
-                def commonFlags = compileFlags.usefulFlags()
-
-                cmake = new com.sjnewell.cmake()
-                cmake.setPrefix('scan-build')
-                cmake.useNinja()
-                cmake.setCommonFlags(commonFlags)
-                cmake.configure(src)
-            }
-        }
-
-        stage('Build') {
-            dir('build') {
-                sh 'scan-build -o scan-results ninja'
-            }
-        }
+        git = config.git
+        buildDir = 'build'
+        buildPrefix = 'scan-build'
+        configPrefix = 'scan-build -o scan-results'
+        ninja = true
+        commonFlags = flags.usefulFlags()  + ' ' +
+                      flags.debugFlags()   + ' ' +
+                      flags.warningFlags()
     }
 }

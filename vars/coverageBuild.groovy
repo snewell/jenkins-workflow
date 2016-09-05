@@ -30,43 +30,15 @@ def call(body) {
     body.delegate = config
     body()
 
-    node {
-        def src = pwd()
-        stage('Checkout') {
-            git "${config.git}"
-        }
+    def flags = new com.sjnewell.compileFlags()
+    genericBuild {
+        steps = ['checkout', 'configure', 'build', 'test', 'coverage']
 
-        stage('Configure') {
-            dir('build') {
-                deleteDir()
-                def commonFlags = compileFlags.usefulFlags() + ' ' + compileFlags.debugFlags() + ' ' + compileFlags.warningFlags() + ' -coverage'
-
-                cmake = new com.sjnewell.cmake()
-                cmake.setCommonFlags(commonFlags)
-                cmake.configure(src)
-            }
-        }
-
-        stage('Build') {
-            dir('build') {
-                sh 'make'
-            }
-        }
-
-        stage('Test') {
-            dir('build') {
-                sh 'make test'
-            }
-        }
-
-        stage('Coverage') {
-            dir('build') {
-                coverage = new com.sjnewell.lcov()
-                coverage.gather(src, 'coverage.info')
-                coverage.trim('coverage.info', 'coverage.info.trimmed', '*_test.cpp')
-                coverage.process('coverage.info.trimmed', 'coverage')
-                archiveArtifacts 'coverage/**'
-            }
-        }
+        git = config.git
+        buildDir = 'build'
+        commonFlags = flags.usefulFlags()  + ' ' +
+                      flags.debugFlags()   + ' ' +
+                      flags.warningFlags() + ' ' +
+                      flags.coverageFlags()
     }
 }

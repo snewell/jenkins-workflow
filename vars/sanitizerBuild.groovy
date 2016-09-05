@@ -24,36 +24,16 @@ def call(body) {
     body.delegate = config
     body()
 
-    node {
-        def src = pwd()
-        stage('Checkout') {
-            git "${config.git}"
-        }
+    def flags = new com.sjnewell.compileFlags()
+    genericBuild {
+        steps = ['checkout', 'configure', 'build', 'test']
 
-        stage('Configure') {
-            dir('build') {
-                deleteDir()
-                def commonFlags = compileFlags.usefulFlags() + ' ' + compileFlags.debugFlags() + ' ' + compileFlags.warningFlags() + ' ' + compileFlags.sanitizerFlags(config.sanitizer)
-
-                cmake = new com.sjnewell.cmake()
-                cmake.setCommonFlags(commonFlags)
-                cmake.setCCompiler("clang")
-                cmake.setCxxCompiler("clang++")
-                cmake.useNinja()
-                cmake.configure(src)
-            }
-        }
-
-        stage('Build') {
-            dir('build') {
-                sh 'ninja'
-            }
-        }
-
-        stage('Test') {
-            dir('build') {
-                sh 'ninja test'
-            }
-        }
+        git = config.git
+        buildDir = 'build'
+        ninja = true
+        commonFlags = flags.usefulFlags()  + ' ' +
+                      flags.debugFlags()   + ' ' +
+                      flags.warningFlags() + ' ' +
+                      flags.sanitizerFlags(config.sanitizer)
     }
 }
