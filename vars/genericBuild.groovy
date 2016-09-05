@@ -108,6 +108,11 @@ def call(body) {
                 stage('Test') {
                     dir(config.buildDir) {
                         sh "${buildPrefix} ${buildTool} test"
+
+                        // gather the test results
+                        for(pattern in config.testResults) {
+                            junit pattern
+                        }
                     }
                 }
             }
@@ -115,10 +120,16 @@ def call(body) {
                 stage('Coverage') {
                     dir(config.buildDir) {
                         coverage = new com.sjnewell.lcov()
-                        coverage.gather(src, 'coverage.info')
-                        coverage.trim('coverage.info', 'coverage.info.trimmed',
-                                      '*_test.cpp')
-                        coverage.process('coverage.info.trimmed', 'coverage')
+                        def count = 0
+                        coverage.gather(src, "coverage.info.${count}")
+                        for(filter in config.coverageFilters) {
+                            def next = count + 1
+                            coverage.trim("coverage.info.${count}",
+                                          "coverage.info.${next}",
+                                          filter)
+                            count = next
+                        }
+                        coverage.process("coverage.info.${count}", 'coverage')
                         archiveArtifacts 'coverage/**'
                     }
                 }
