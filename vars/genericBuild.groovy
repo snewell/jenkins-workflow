@@ -85,7 +85,7 @@ def call(body) {
                             cmake.setCCompiler(config.cc)
                         }
                         if(config.containsKey('cxx')) {
-                            cmake.setCxxCompiler(config.cc)
+                            cmake.setCxxCompiler(config.cxx)
                         }
                         if(config.containsKey('configPrefix')) {
                             cmake.setPrefix(config.configPrefix)

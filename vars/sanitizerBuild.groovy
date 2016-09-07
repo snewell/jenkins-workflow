@@ -31,6 +31,8 @@ def call(body) {
         git = config.git
         buildDir = 'build'
         ninja = true
+        cc = 'clang'
+        cxx = 'clang++'
         commonFlags = flags.usefulFlags()  + ' ' +
                       flags.debugFlags()   + ' ' +
                       flags.warningFlags() + ' ' +
