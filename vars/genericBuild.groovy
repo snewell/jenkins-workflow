@@ -109,9 +109,11 @@ def call(body) {
                     dir(config.buildDir) {
                         sh "${buildPrefix} ${buildTool} test"
 
-                        // gather the test results
-                        for(pattern in config.testResults) {
-                            junit pattern
+                        // gather the test results if anything was specified
+                        if(config.containsKey('testResults')) {
+                            for(pattern in config.testResults) {
+                                junit pattern
+                            }
                         }
                     }
                 }
@@ -122,12 +124,14 @@ def call(body) {
                         coverage = new com.sjnewell.lcov()
                         def count = 0
                         coverage.gather(src, "coverage.info.${count}")
-                        for(filter in config.coverageFilters) {
-                            def next = count + 1
-                            coverage.trim("coverage.info.${count}",
-                                          "coverage.info.${next}",
-                                          filter)
-                            count = next
+                        if(config.containsKey('coverageFilters')) {
+                            for(filter in config.coverageFilters) {
+                                def next = count + 1
+                                coverage.trim("coverage.info.${count}",
+                                            "coverage.info.${next}",
+                                            filter)
+                                count = next
+                            }
                         }
                         coverage.process("coverage.info.${count}", 'coverage')
                         archiveArtifacts 'coverage/**'

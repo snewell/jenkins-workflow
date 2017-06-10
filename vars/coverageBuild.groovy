@@ -11,11 +11,17 @@
 //
 // USAGE:
 //   You need to provide a valid git uri Jenkins can handle (this value is
-//   passed directly to Jenkins's git command).
+//   passed directly to Jenkins's git command).  Test results (in a compatible
+//   format) should be provided in the testResults variable (each entry in the
+//   list is passed directly to Jenkins's junit command).  Filtering for code
+//   coverage should be specified in the coverageFilter variable (filters are
+//   used by a com.sjnewell.lcov instance).
 //
 // EXAMPLE:
 //  coverageBuild {
 //    git = '/path/to/git/uri'
+//    testResults = ['**/*_results.xml']
+//    coverageFilters = ['*_test.cpp']
 //  }
 //
 // ASSUMPTIONS:
@@ -39,7 +45,19 @@ def call(body) {
                       flags.debugFlags()   + ' ' +
                       flags.warningFlags() + ' ' +
                       flags.coverageFlags()
-        testResults = ['**/*_results.xml']
-        coverageFilters = ['*_test.cpp']
+
+        if(config.containsKey('testResults')) {
+            testResults = config.testResults
+        }
+        else {
+            coverageFilters = []
+        }
+
+        if(config.containsKey('coverageFilters')) {
+            coverageFilters = config.coverageFilters
+        }
+        else {
+            coverageFilters = []
+        }
     }
 }
