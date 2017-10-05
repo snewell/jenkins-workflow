@@ -32,7 +32,11 @@ def call(body) {
 
     def flags = new com.sjnewell.compileFlags()
     genericBuild {
-        steps = ['checkout', 'configure', 'build']
+        steps = [
+            new checkout_step(),
+            new configure_step(),
+            new build_step()
+        ]
 
         git = config.git
         buildDir = 'build'

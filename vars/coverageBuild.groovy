@@ -37,7 +37,13 @@ def call(body) {
 
     def flags = new com.sjnewell.compileFlags()
     genericBuild {
-        steps = ['checkout', 'configure', 'build', 'test', 'coverage']
+        steps = [
+            new checkout_step(),
+            new configure_step(),
+            new build_step(),
+            new test_step(),
+            new coverage_step()
+        ]
 
         git = config.git
         buildDir = 'build'
