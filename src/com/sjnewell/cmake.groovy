@@ -38,7 +38,12 @@ def setCxxFlags(flags) {
 
 // Tell CMake to generate ninja files instead of its default
 def useNinja() {
-    generator = "Ninja"
+    generator = 'Ninja'
+}
+
+// Generate compile commands
+def exportCompileCommands() {
+    exportCommands = true
 }
 
 // Use a specific C compiler
@@ -56,8 +61,8 @@ def setCxxCompiler(cxx) {
 // Run the CMake command.
 //   src: path to the source directory (where CMakeLists.txt lives)
 def configure(src) {
-    def ex_cflags   = ""
-    def ex_cxxflags = ""
+    def ex_cflags   = ''
+    def ex_cxxflags = ''
 
     // build the C/CXX flags
     if(cmakeCommonFlags) {
@@ -72,15 +77,18 @@ def configure(src) {
     }
 
     // build up the cmake command line
-    def args = ""
+    def args = ''
 
     // start with any prefix and cmake flags
     if(cmakePrefix) {
         args = "${cmakePrefix}"
     }
-    args += " cmake"
+    args += ' cmake'
     if(cmakeFlags) {
         args += " ${cmakeFlags}"
+    }
+    if(exportCommands) {
+        args += ' -DCMAKE_EXPORT_COMPILE_COMMANDS=1'
     }
 
     // if we have C/CXX flags add the appropriate arguments
