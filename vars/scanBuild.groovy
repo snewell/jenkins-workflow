@@ -18,10 +18,6 @@
 //    git = '/path/to/git/uri'
 //  }
 //
-// ASSUMPTIONS:
-//   - The default toolchain accepts the "-coverage" flag
-//   - Only one level of filtering is required (*_test.cpp)
-//
 
 def call(body) {
     // evaluate the body block, and collect configuration into the object

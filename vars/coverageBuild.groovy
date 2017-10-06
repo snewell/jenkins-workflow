@@ -24,9 +24,6 @@
 //    coverageFilters = ['*_test.cpp']
 //  }
 //
-// ASSUMPTIONS:
-//   - Only one level of filtering is required (*_test.cpp)
-//
 
 def call(body) {
     // evaluate the body block, and collect configuration into the object
