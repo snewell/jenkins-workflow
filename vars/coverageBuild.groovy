@@ -56,7 +56,7 @@ def call(body) {
             testResults = config.testResults
         }
         else {
-            coverageFilters = []
+            testResults = []
         }
 
         if(config.containsKey('coverageFilters')) {
