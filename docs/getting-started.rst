@@ -58,15 +58,20 @@ full build logs (reduces noise for optional things).
 
 Build Types
 -----------
- - clangTidyBuild - Analyze a project using clang-tidy
+ - clangTidyBuild_ - Analyze a project using clang-tidy
  - coverageBuild_ - Build a project and calculate code coverage
- - quickBuild - Build a project
- - sanitizerBuild - Build a project with a sanitizer and run tests
- - sanitizers - Launch a :code:`sanitizerBuild` with each supported sanitizers
- - scanBuild - Analyze a project using Clang's static analyzer
+ - quickBuild_ - Build a project
+ - sanitizerBuild_ - Build a project with a sanitizer and run tests
+ - sanitizers_ - Launch a :code:`sanitizerBuild` with each supported sanitizers
+ - scanBuild_ - Analyze a project using Clang's static analyzer
 
 
 .. _CMake: https://cmake.org
 .. _Pipeline Global Library: https://github.com/jenkinsci/workflow-cps-global-lib-plugin
 
+.. _clangTidyBuild: builds/clangTidyBuild.rst
 .. _coverageBuild: builds/coverageBuild.rst
+.. _quickBuild: builds/quickBuild.rst
+.. _sanitizerBuild: builds/sanitizerBuild.rst
+.. _sanitizers: builds/sanitizers.rst
+.. _scanBuild: builds/scanBuild.rst
