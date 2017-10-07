@@ -32,28 +32,29 @@ def call(body) {
     body.delegate = config
     body()
 
+    def build = new com.sjnewell.genericBuild()
+    def data = build.buildMap(config)
+
+    data.buildDir = 'build'
+
     def flags = new com.sjnewell.compileFlags()
     def requiredFlags = flags.usefulFlags()  + ' ' +
                         flags.debugFlags()   + ' ' +
                         flags.warningFlags() + ' ' +
                         flags.coverageFlags()
-    genericBuild {
-        steps = [
-            new checkout_step(),
-            new configure_step(),
-            new build_step(),
-            new test_step(),
-            new coverage_step()
-        ]
-
-        config.buildDir = 'build'
-        if(config.containsKey('commonFlags')) {
-            config.commonFlags = "${requiredFlags} ${config.commonFlags}"
-        }
-        else {
-            config.commonFlags = requiredFlags
-        }
-
-        args = config
+    if(config.containsKey('commonFlags')) {
+        data.commonFlags = "${requiredFlags} ${config.commonFlags}"
     }
+    else {
+        data.commonFlags = requiredFlags
+    }
+
+    def steps = [
+        new com.sjnewell.step.checkout(),
+        new com.sjnewell.step.configure(),
+        new com.sjnewell.step.build(),
+        new com.sjnewell.step.test(),
+        new com.sjnewell.step.coverage()
+    ]
+    build.run(data, steps)
 }

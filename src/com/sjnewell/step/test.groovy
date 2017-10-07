@@ -1,3 +1,5 @@
+package com.sjnewell.step;
+
 // This step runs built tests.
 //
 // DEPENDENCIES:
@@ -34,7 +36,7 @@
 //   A "test" target is available.
 //
 
-def call(args) {
+def execute(args) {
     stage('Test') {
         def buildTool = 'make'
         def buildPrefix = ''

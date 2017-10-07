@@ -24,30 +24,32 @@ def call(body) {
     body.delegate = config
     body()
 
+    def build = new com.sjnewell.genericBuild()
+    def data = build.buildMap(config)
+
+    data.buildDir = 'build'
+    data.ninja = true
+    data.cc = 'clang'
+    data.cxx = 'clang++'
+
     def flags = new com.sjnewell.compileFlags()
     def requiredFlags = flags.usefulFlags()  + ' ' +
                         flags.debugFlags()   + ' ' +
-                        flags.warningFlags()
+                        flags.warningFlags() + ' ' +
                         flags.sanitizerFlags(body.sanitizer)
-    genericBuild {
-        steps = [
-            new checkout_step(),
-            new configure_step(),
-            new build_step(),
-            new test_step()
-        ]
-
-        config.buildDir = 'build'
-        config.ninja = true
-        config.cc = 'clang'
-        config.cxx = 'clang++'
-        if(config.containsKey('commonFlags')) {
-            config.commonFlags = "${requiredFlags} ${commonFlags}"
-        }
-        else {
-            config.commonFlags = requiredFlags
-        }
-
-        args = config
+    if(config.containsKey('commonFlags')) {
+        data.commonFlags = "${requiredFlags} ${commonFlags}"
     }
+    else {
+        data.commonFlags = requiredFlags
+    }
+
+    def steps = [
+        new com.sjnewell.step.checkout(),
+        new com.sjnewell.step.configure(),
+        new com.sjnewell.step.build(),
+        new com.sjnewell.step.test()
+    ]
+
+    build.run(data, steps)
 }

@@ -1,3 +1,5 @@
+package com.sjnewell.step;
+
 // This step runs clang-tidy on a CMake project
 //
 // DEPENDENCIES:
@@ -20,7 +22,7 @@
 //   }
 //
 
-def call(args) {
+def execute(args) {
     stage('Clang Tidy') {
         def outputFile = 'clang-tidy-output'
         // Chainsaw the clang-tidy command:

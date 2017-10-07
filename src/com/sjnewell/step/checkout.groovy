@@ -1,3 +1,5 @@
+package com.sjnewell.step;
+
 // This step performs a project checkout.
 //
 // DEPENDENCIES:
@@ -20,7 +22,7 @@
 //   }
 //
 
-def call(args) {
+def execute(args) {
     stage('Checkout') {
         git args.git
     }

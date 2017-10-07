@@ -21,17 +21,15 @@ def call(body) {
     body.delegate = config
     body()
 
-    def flags = new com.sjnewell.compileFlags()
-    genericBuild {
-        steps = [
-            new checkout_step(),
-            new configure_step(),
-            new clangTidy_step()
-        ]
+    def build = new com.sjnewell.genericBuild()
+    def data = build.buildMap(config)
+    data.buildDir = 'build'
+    data.export = true
 
-        config.buildDir = 'build'
-        config.export = true
-
-        args = config
-    }
+    def steps = [
+        new com.sjnewell.step.checkout(),
+        new com.sjnewell.step.configure(),
+        new com.sjnewell.step.clangTidy()
+    ]
+    build.run(data, steps)
 }

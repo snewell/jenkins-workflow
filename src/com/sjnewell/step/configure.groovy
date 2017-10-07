@@ -1,3 +1,5 @@
+package com.sjnewell.step;
+
 // This step configures CMake.
 //
 // DEPENDENCIES:
@@ -36,7 +38,7 @@
 //   }
 //
 
-def call(args) {
+def execute(args) {
     stage('Configure') {
         def src = pwd()
 

@@ -1,3 +1,5 @@
+package com.sjnewell.step;
+
 // This step builds a CMake project.
 //
 // DEPENDENCIES:
@@ -29,7 +31,7 @@
 //   }
 //
 
-def call(args) {
+def execute(args) {
     stage('Build') {
         def buildTool = 'make'
         def buildPrefix = ''

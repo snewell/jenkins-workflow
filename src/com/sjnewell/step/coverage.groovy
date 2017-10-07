@@ -1,3 +1,5 @@
+package com.sjnewell.step;
+
 // This step calculates code coverage.
 //
 // DEPENDENCIES:
@@ -31,7 +33,7 @@
 //   won't be able to gather results unless tests were actually run.
 //
 
-def call(args) {
+def execute(args) {
     stage('Coverage') {
         def src = pwd()
 
@@ -42,17 +44,17 @@ def call(args) {
         }
 
         dir(args.buildDir) {
-            coverage = new com.sjnewell.lcov()
+            cov = new com.sjnewell.lcov()
             def count = 0
-            coverage.gather(src, "coverage.info.${count}")
+            cov.gather(src, "coverage.info.${count}")
             for(filter in coverageFilters) {
                 def next = count + 1
-                coverage.trim("coverage.info.${count}",
-                            "coverage.info.${next}",
-                            filter)
+                cov.trim("coverage.info.${count}",
+                         "coverage.info.${next}",
+                         filter)
                 count = next
             }
-            coverage.process("coverage.info.${count}", 'coverage')
+            cov.process("coverage.info.${count}", 'coverage')
             archiveArtifacts 'coverage/**'
         }
     }
