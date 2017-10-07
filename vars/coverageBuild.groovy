@@ -33,6 +33,10 @@ def call(body) {
     body()
 
     def flags = new com.sjnewell.compileFlags()
+    def requiredFlags = flags.usefulFlags()  + ' ' +
+                        flags.debugFlags()   + ' ' +
+                        flags.warningFlags() + ' ' +
+                        flags.coverageFlags()
     genericBuild {
         steps = [
             new checkout_step(),
@@ -42,25 +46,14 @@ def call(body) {
             new coverage_step()
         ]
 
-        git = config.git
-        buildDir = 'build'
-        commonFlags = flags.usefulFlags()  + ' ' +
-                      flags.debugFlags()   + ' ' +
-                      flags.warningFlags() + ' ' +
-                      flags.coverageFlags()
-
-        if(config.containsKey('testResults')) {
-            testResults = config.testResults
+        config.buildDir = 'build'
+        if(config.containsKey('commonFlags')) {
+            config.commonFlags = "${requiredFlags} ${config.commonFlags}"
         }
         else {
-            testResults = []
+            config.commonFlags = requiredFlags
         }
 
-        if(config.containsKey('coverageFilters')) {
-            coverageFilters = config.coverageFilters
-        }
-        else {
-            coverageFilters = []
-        }
+        args = config
     }
 }

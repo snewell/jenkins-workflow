@@ -39,6 +39,10 @@ def call(args) {
         def buildTool = 'make'
         def buildPrefix = ''
 
+        def testResults = []
+        if(args.containsKey('testResults')) {
+            testResults = args.testResults
+        }
         if(args.containsKey('buildPrefix')) {
             buildPrefix = args.buildPrefix
         }
@@ -50,10 +54,8 @@ def call(args) {
             sh "${buildPrefix} ${buildTool} test"
 
             // gather the test results if anything was specified
-            if(args.containsKey('testResults')) {
-                for(pattern in args.testResults) {
-                    junit pattern
-                }
+            for(pattern in testResults) {
+                junit pattern
             }
         }
     }

@@ -25,6 +25,10 @@ def call(body) {
     body()
 
     def flags = new com.sjnewell.compileFlags()
+    def requiredFlags = flags.usefulFlags()  + ' ' +
+                        flags.debugFlags()   + ' ' +
+                        flags.warningFlags()
+                        flags.sanitizerFlags(body.sanitizer)
     genericBuild {
         steps = [
             new checkout_step(),
@@ -33,14 +37,17 @@ def call(body) {
             new test_step()
         ]
 
-        git = config.git
-        buildDir = 'build'
-        ninja = true
-        cc = 'clang'
-        cxx = 'clang++'
-        commonFlags = flags.usefulFlags()  + ' ' +
-                      flags.debugFlags()   + ' ' +
-                      flags.warningFlags() + ' ' +
-                      flags.sanitizerFlags(config.sanitizer)
+        config.buildDir = 'build'
+        config.ninja = true
+        config.cc = 'clang'
+        config.cxx = 'clang++'
+        if(config.containsKey('commonFlags')) {
+            config.commonFlags = "${requiredFlags} ${commonFlags}"
+        }
+        else {
+            config.commonFlags = requiredFlags
+        }
+
+        args = config
     }
 }

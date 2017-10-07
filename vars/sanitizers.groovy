@@ -24,10 +24,19 @@ def call(body) {
     body()
 
     parallel address: {
-        build job: config.sanitizerBuild, parameters: [string(name: config.sanitizer, value: 'address')]
+        build job: config.sanitizerBuild,
+              parameters: [
+                string(name: config.sanitizer, value: 'address')
+              ]
     }, thread: {
-        build job: config.sanitizerBuild, parameters: [string(name: config.sanitizer, value: 'thread')]
+        build job: config.sanitizerBuild,
+              parameters: [
+                string(name: config.sanitizer, value: 'thread')
+              ]
     }, udef: {
-        build job: config.sanitizerBuild, parameters: [string(name: config.sanitizer, value: 'undefined')]
+        build job: config.sanitizerBuild,
+              parameters: [
+                string(name: config.sanitizer, value: 'undefined')
+              ]
     }
 }

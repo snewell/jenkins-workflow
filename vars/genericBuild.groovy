@@ -34,7 +34,7 @@ def call(body) {
 
     node {
         for(step in config.steps) {
-            step config
+            step config.args
         }
     }
 }

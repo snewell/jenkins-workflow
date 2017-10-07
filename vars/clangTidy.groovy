@@ -29,8 +29,9 @@ def call(body) {
             new clangTidy_step()
         ]
 
-        git = config.git
-        buildDir = 'build'
-        export = true
+        config.buildDir = 'build'
+        config.export = true
+
+        args = config
     }
 }
