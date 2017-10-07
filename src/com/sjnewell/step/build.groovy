@@ -59,7 +59,10 @@ def execute(args) {
                 //  2. sort them
                 //  3. count the sorted list using uniq -c
                 def warningsCount = 'warnings.count'
-                sh "grep -o \\\\[-W..*\\\\] ${stderrPath} | sort | uniq -c >${warningsCount}"
+                sh "grep -o \\\\[-W..*\\\\] ${stderrPath} |" +
+                   "sort |" +
+                   "uniq -c >${warningsCount}"
+                archiveArtifacts stderrPath
                 archiveArtifacts warningsCount
             }
         }

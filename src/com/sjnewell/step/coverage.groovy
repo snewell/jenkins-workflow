@@ -39,7 +39,6 @@ def execute(args) {
 
         def coverageFilters = []
         if(args.containsKey('coverageFilters')) {
-            echo "setting filters"
             coverageFilters = args.coverageFilters
         }
 

@@ -53,7 +53,13 @@ def execute(args) {
         }
 
         dir(args.buildDir) {
-            sh "${buildPrefix} ${buildTool} test"
+            try {
+                sh "${buildPrefix} ${buildTool} test"
+            }
+            catch(err) {
+                // a test failed, so mark the build as unstable
+                currentBuild.result = "UNSTABLE"
+            }
 
             // gather the test results if anything was specified
             for(pattern in testResults) {

@@ -48,7 +48,8 @@ def call(body) {
         new com.sjnewell.step.checkout(),
         new com.sjnewell.step.configure(),
         new com.sjnewell.step.build(),
-        new com.sjnewell.step.test()
+        new com.sjnewell.step.test(),
+        new com.sjnewell.step.archive()
     ]
 
     build.run(data, steps)

@@ -36,6 +36,7 @@ def call(body) {
     def data = build.buildMap(config)
 
     data.buildDir = 'build'
+    data.countWarnings = true
 
     def flags = new com.sjnewell.compileFlags()
     def requiredFlags = flags.usefulFlags()  + ' ' +
@@ -54,7 +55,8 @@ def call(body) {
         new com.sjnewell.step.configure(),
         new com.sjnewell.step.build(),
         new com.sjnewell.step.test(),
-        new com.sjnewell.step.coverage()
+        new com.sjnewell.step.coverage(),
+        new com.sjnewell.step.archive()
     ]
     build.run(data, steps)
 }
