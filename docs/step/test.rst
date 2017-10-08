@@ -28,4 +28,3 @@ If any of the tests fail, the build will be marked as unstable.
 
 
 .. _Google Test: https://github.com/google/googletest
-.. _Ninja: https://ninja-build.org/

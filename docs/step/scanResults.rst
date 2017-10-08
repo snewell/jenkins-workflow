@@ -18,7 +18,3 @@ Notes
 -----
   - This step will *not* show up in the build summary.
   - If any issues are detected, the build will be marked as unstable.
-
-
-.. _Google Test: https://github.com/google/googletest
-.. _Ninja: https://ninja-build.org/

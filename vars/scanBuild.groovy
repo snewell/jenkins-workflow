@@ -30,11 +30,11 @@ def call(body) {
     def data = build.buildMap(config)
 
     data.buildDir = 'build'
-    data.ninja = true
+    data.buildGenerator = 'Ninja'
 
     def scanResultsDir = 'scan-results'
-    data.buildPrefix = "scan-build -o ${scanResultsDir}"
     data.configPrefix = "scan-build -o ${scanResultsDir}"
+    data.buildPrefix = "scan-build -o ${data.buildDir}/${scanResultsDir}"
     data.scanResultsDir = scanResultsDir
 
     def flags = new com.sjnewell.compileFlags()

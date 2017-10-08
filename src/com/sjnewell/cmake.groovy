@@ -36,9 +36,9 @@ def setCxxFlags(flags) {
     cmakeCxxFlags = flags
 }
 
-// Tell CMake to generate ninja files instead of its default
-def useNinja() {
-    generator = 'Ninja'
+// Use a non-default generator
+def setGenerator(gen) {
+    generator = gen
 }
 
 // Generate compile commands

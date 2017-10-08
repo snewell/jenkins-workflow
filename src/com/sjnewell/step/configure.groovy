@@ -17,7 +17,7 @@ package com.sjnewell.step;
 //     - cc - the C compiler to use
 //     - cxx - the C++ compiler to use
 //     - configPrefix - a configuration prefix for CMake
-//     - ninja - use Ninja instead of make
+//     - buildGenerator - the buildGenerator to use
 //     - exportCommands - generate a compile commands file (commonly used by
 //                        other tools)
 //
@@ -67,8 +67,8 @@ def execute(args) {
             if(args.containsKey('configPrefix')) {
                 cmake.setPrefix(args.configPrefix)
             }
-            if(args.containsKey('ninja') && args.ninja) {
-                cmake.useNinja()
+            if(args.containsKey('buildGenerator')) {
+                cmake.setGenerator(args.buildGenerator)
             }
             if(args.containsKey('export') && args.export) {
                 cmake.exportCompileCommands()

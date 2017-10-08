@@ -20,6 +20,3 @@ Artifacts
 ---------
 If :code:`countWarnings` is :code:`true`, warning information is captured.
 The files will be archived even if no warnings are emitted.
-
-
-.. _Ninja: https://ninja-build.org/

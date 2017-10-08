@@ -28,7 +28,7 @@ def call(body) {
     def data = build.buildMap(config)
 
     data.buildDir = 'build'
-    data.ninja = true
+    data.buildGenerator = 'Ninja'
     data.cc = 'clang'
     data.cxx = 'clang++'
 

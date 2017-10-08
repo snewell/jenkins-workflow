@@ -22,6 +22,3 @@ Artifacts
 ---------
   - Code coverage analysis.  This is a directory (coverage); index.html is the
     entry point to the full report.
-
-
-.. _Ninja: https://ninja-build.org/

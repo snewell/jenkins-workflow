@@ -24,12 +24,10 @@ Variables
   - :code:`configPrefix` - A string to prefix to the :code:`cmake` invocation.
     This isn't needed in most cases, but can be useful if a tool manipulates
     the environment in some way (e.g., :code:`scan-build`).
-  - :code:`ninja` - Use Ninja_ as a build system instead of the default
-    (:code:`make`).  This can make builds faster, but some tools don't work
-    well if the project is configured/built with :code:`ninja`.
+  - :code:`buildGenerator` - Use a specific generator with CMake_.  If not
+    specified, the default will be used.
   - :code:`export` - Have :code:`cmake` generate a compile commands file.
     This isn't required in most cases, but some tools require this file.
 
 
 .. _CMake: https://cmake.org
-.. _Ninja: https://ninja-build.org/
