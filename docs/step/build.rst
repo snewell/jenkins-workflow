@@ -14,8 +14,6 @@ Variables
     a sorted count of warnings.  The count assumes the flag to emit the
     warning was included in output (this is true for both :code:`gcc` and
     :code:`clang`).
-  - :code:`ninja` - Use Ninja_ instead of :code:`make`.  This makes builds
-    faster in some cases, but not all tools work well.
 
 
 Artifacts

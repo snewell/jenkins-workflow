@@ -33,7 +33,6 @@ package com.sjnewell.step;
 
 def execute(args) {
     stage('Build') {
-        def buildTool = 'make'
         def buildPrefix = ''
         def stderrPath = ''
         def stderrRedirect = ''
@@ -42,29 +41,24 @@ def execute(args) {
             buildPrefix = args.buildPrefix
         }
         if(args.containsKey('countWarnings') && args.countWarnings) {
-            stderrPath = 'warnings'
+            stderrPath = "${args.buildDir}/warnings"
             stderrRedirect = " 2>${stderrPath}"
         }
-        if(args.containsKey('ninja')) {
-            buildTool = 'ninja'
-        }
 
-        dir(args.buildDir) {
-            sh "${buildPrefix} ${buildTool} ${stderrRedirect}"
+        sh "${buildPrefix} cmake --build ${args.buildDir} ${stderrRedirect}"
 
-            if(args.containsKey('countWarnings') && args.countWarnings) {
-                // gcc/clang print the warning in the pattern [-Wname], so
-                // chainsaw it
-                //  1. grep for just the warning name
-                //  2. sort them
-                //  3. count the sorted list using uniq -c
-                def warningsCount = 'warnings.count'
-                sh "grep -o \\\\[-W..*\\\\] ${stderrPath} |" +
-                   "sort |" +
-                   "uniq -c >${warningsCount}"
-                archiveArtifacts stderrPath
-                archiveArtifacts warningsCount
-            }
+        if(args.containsKey('countWarnings') && args.countWarnings) {
+            // gcc/clang print the warning in the pattern [-Wname], so
+            // chainsaw it
+            //  1. grep for just the warning name
+            //  2. sort them
+            //  3. count the sorted list using uniq -c
+            def warningsCount = "${stderrPath}.count"
+            sh "grep -o \\\\[-W..*\\\\] ${stderrPath} |" +
+                "sort |" +
+                "uniq -c >${warningsCount}"
+            archiveArtifacts stderrPath
+            archiveArtifacts warningsCount
         }
     }
 }

@@ -38,7 +38,6 @@ package com.sjnewell.step;
 
 def execute(args) {
     stage('Test') {
-        def buildTool = 'make'
         def buildPrefix = ''
 
         def testResults = []
@@ -48,23 +47,18 @@ def execute(args) {
         if(args.containsKey('buildPrefix')) {
             buildPrefix = args.buildPrefix
         }
-        if(args.containsKey('ninja')) {
-            buildTool = 'ninja'
+
+        try {
+            sh "${buildPrefix} cmake --build ${args.buildDir} --target test"
+        }
+        catch(err) {
+            // a test failed, so mark the build as unstable
+            currentBuild.result = "UNSTABLE"
         }
 
-        dir(args.buildDir) {
-            try {
-                sh "${buildPrefix} ${buildTool} test"
-            }
-            catch(err) {
-                // a test failed, so mark the build as unstable
-                currentBuild.result = "UNSTABLE"
-            }
-
-            // gather the test results if anything was specified
-            for(pattern in testResults) {
-                junit pattern
-            }
+        // gather the test results if anything was specified
+        for(pattern in testResults) {
+            junit pattern
         }
     }
 }
