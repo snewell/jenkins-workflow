@@ -24,6 +24,30 @@ package com.sjnewell.step;
 
 def execute(args) {
     stage('Checkout') {
-        git args.git
+        // build the checkout structure
+
+        // if something besides git needs support, hopefully it can just be
+        // changed here
+        def checkoutArgs = [$class: 'GitSCM']
+        checkoutArgs.userRemoteConfigs = [
+            // looks like it can do mulitple checkouts in example...
+            [url: args.git]
+        ]
+
+        if(args.containsKey('branch')) {
+            checkoutArgs.branches = [
+                // multiple branches too...
+                [name: args.branch]
+            ]
+        }
+        else {
+            // the default branch probably varies based on the SCM being used
+            checkoutArgs.branches = [
+                [name: '**']
+            ]
+        }
+
+        // fingers crossed...
+        checkout(checkoutArgs)
     }
 }
