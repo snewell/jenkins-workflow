@@ -9,6 +9,8 @@ Variables
   - :code:`buildPrefix` - Something to prefix to the build command.  This
     isn't needed in most cases, but some tools (:code:`scan-build`) adjust the
     environment during a build so they can run.
+  - :code:`buildTargets` - An array of targets that should be built during
+    this step.  If not specified, the default target will be run.
   - :code:`countWarnings` - Include warning information in the build
     artifacts.  This will include both the raw warnings from the compiler and
     a sorted count of warnings.  The count assumes the flag to emit the

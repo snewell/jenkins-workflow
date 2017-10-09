@@ -45,7 +45,15 @@ def execute(args) {
             stderrRedirect = " 2>${stderrPath}"
         }
 
-        sh "${buildPrefix} cmake --build ${args.buildDir} ${stderrRedirect}"
+        def frontCommand = "${buildPrefix} cmake --build ${args.buildDir}"
+        if(args.containsKey('buildTargets')) {
+            args.buildTargets.each{ target ->
+                sh "${frontCommand} --target ${target} ${stderrRedirect}"
+            }
+        }
+        else {
+            sh "${frontCommand} ${stderrRedirect}"
+        }
 
         if(args.containsKey('countWarnings') && args.countWarnings) {
             // gcc/clang print the warning in the pattern [-Wname], so
