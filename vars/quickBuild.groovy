@@ -48,6 +48,8 @@ def call(body) {
 
     def steps = [
         new com.sjnewell.step.checkout(),
+        new com.sjnewell.step.prepare(),
+        new com.sjnewell.step.copyArtifacts(),
         new com.sjnewell.step.configure(),
         new com.sjnewell.step.build(),
         new com.sjnewell.step.archive()
