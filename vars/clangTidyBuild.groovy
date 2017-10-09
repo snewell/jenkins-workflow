@@ -27,10 +27,8 @@ def call(body) {
     data.export = true
 
     def steps = [
-        new com.sjnewell.step.checkout(),
         new com.sjnewell.step.configure(),
-        new com.sjnewell.step.clangTidy(),
-        new com.sjnewell.step.archive()
+        new com.sjnewell.step.clangTidy()
     ]
     build.run(data, steps)
 }

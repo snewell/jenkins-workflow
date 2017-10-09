@@ -48,11 +48,9 @@ def call(body) {
     }
 
     def steps = [
-        new com.sjnewell.step.checkout(),
         new com.sjnewell.step.configure(),
         new com.sjnewell.step.build(),
-        new com.sjnewell.step.scanResults(this, "build/${scanResultsDir}"),
-        new com.sjnewell.step.archive()
+        new com.sjnewell.step.scanResults(this, "build/${scanResultsDir}")
     ]
 
     build.run(data, steps)
