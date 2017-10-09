@@ -41,18 +41,24 @@ def execute(args) {
             buildPrefix = args.buildPrefix
         }
         if(args.containsKey('countWarnings') && args.countWarnings) {
-            stderrPath = "${args.buildDir}/warnings"
+            stderrPath = "${args.buildDir}/stderr"
             stderrRedirect = " 2>${stderrPath}"
         }
 
-        def frontCommand = "${buildPrefix} cmake --build ${args.buildDir}"
-        if(args.containsKey('buildTargets')) {
-            args.buildTargets.each{ target ->
-                sh "${frontCommand} --target ${target} ${stderrRedirect}"
+        try {
+            def frontCommand = "${buildPrefix} cmake --build ${args.buildDir}"
+            if(args.containsKey('buildTargets')) {
+                args.buildTargets.each{ target ->
+                    sh "${frontCommand} --target ${target} ${stderrRedirect}"
+                }
+            }
+            else {
+                sh "${frontCommand} ${stderrRedirect}"
             }
         }
-        else {
-            sh "${frontCommand} ${stderrRedirect}"
+        catch(err) {
+            // compilation failure, fail build
+            currentBuild.result = "FAILED"
         }
 
         if(args.containsKey('countWarnings') && args.countWarnings) {
@@ -61,7 +67,7 @@ def execute(args) {
             //  1. grep for just the warning name
             //  2. sort them
             //  3. count the sorted list using uniq -c
-            def warningsCount = "${stderrPath}.count"
+            def warningsCount = "${args.buildDir}/warnings.count"
             sh "grep -o \\\\[-W..*\\\\] ${stderrPath} |" +
                 "sort |" +
                 "uniq -c >${warningsCount}"
