@@ -40,7 +40,7 @@ def call(body) {
                         flags.debugFlags()   + ' ' +
                         flags.warningFlags()
     if(config.containsKey('commonFlags')) {
-        data.commonFlags = "${requiredFlags} ${commonFlags}"
+        data.commonFlags = "${requiredFlags} ${config.commonFlags}"
     }
     else {
         data.commonFlags = requiredFlags

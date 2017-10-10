@@ -38,7 +38,7 @@ def call(body) {
                         flags.warningFlags() + ' ' +
                         flags.sanitizerFlags(body.sanitizer)
     if(config.containsKey('commonFlags')) {
-        data.commonFlags = "${requiredFlags} ${commonFlags}"
+        data.commonFlags = "${requiredFlags} ${config.commonFlags}"
     }
     else {
         data.commonFlags = requiredFlags
