@@ -6,12 +6,12 @@ coverage.
 
 Steps
 -----
-1. checkout_
-2. configure_
-3. build_
-4. test_
-5. coverage_
-6. archive_
+In addition to the `common steps`_, a coverageBuild performs:
+
+1. configure_
+2. build_
+3. test_
+4. coverage_
 
 
 Notes
@@ -32,9 +32,8 @@ Example
     }
 
 
-.. _archive: ../step/archive.rst
 .. _build: ../step/build.rst
-.. _checkout: ../step/checkout.rst
+.. _common steps: ../step/common-steps.rst
 .. _configure: ../step/configure.rst
 .. _coverage: ../step/coverage.rst
 .. _test: ../step/test.rst

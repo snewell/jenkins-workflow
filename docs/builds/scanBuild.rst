@@ -10,11 +10,11 @@ Requirements
 
 Steps
 -----
-1. checkout_
+In addition to the `common steps`_, a coverageBuild performs:
+
 2. configure_
 3. build_
 4. scanResults_
-5. archive_
 
 
 Example
@@ -26,8 +26,7 @@ Example
     }
 
 
-.. _archive: ../step/archive.rst
 .. _build: ../step/build.rst
-.. _checkout: ../step/checkout.rst
+.. _common steps: ../step/common-steps.rst
 .. _configure: ../step/configure.rst
 .. _scanResults: ../step/scanResults.rst

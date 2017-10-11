@@ -8,10 +8,10 @@ builds.
 
 Steps
 -----
-1. checkout_
-2. configure_
-3. build_
-4. archive_
+In addition to the `common steps`_, a quickBuild performs:
+
+1. configure_
+2. build_
 
 
 Notes
@@ -29,7 +29,6 @@ Example
     }
 
 
-.. _archive: ../step/archive.rst
 .. _build: ../step/build.rst
-.. _checkout: ../step/checkout.rst
+.. _common steps: ../step/common-steps.rst
 .. _configure: ../step/configure.rst

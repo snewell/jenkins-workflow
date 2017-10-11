@@ -6,10 +6,10 @@ A :code:`clangTidyBuild` analyzes a project using :code:`clang-tidy`.  It does
 
 Steps
 -----
-1. checkout_
-2. configure_
-3. clangTidy_
-4. archive_
+In addition to the `common steps`_, a coverageBuild performs:
+
+1. configure_
+2. clangTidy_
 
 
 Example
@@ -20,7 +20,7 @@ Example
         git = 'https://github.com/snewell/bureaucracy'
     }
 
-.. _archive: ../step/archive.rst
-.. _checkout: ../step/checkout.rst
+
+.. _common steps: ../step/common-steps.rst
 .. _configure: ../step/configure.rst
 .. _clangTidy: ../step/clangTidy.rst
