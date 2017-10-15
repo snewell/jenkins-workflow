@@ -1,18 +1,15 @@
 package com.sjnewell.step;
 
 def execute(args) {
-    def src = pwd()
-
-    def archivePatterns = []
-    if(args.containsKey('archivePatterns')) {
-        archivePatterns = args.archivePatterns
-    }
-
-    dir(args.buildDir) {
-        for(pattern in archivePatterns) {
-            echo "archiving ${pattern}"
+    def archiveStuff = { patterns ->
+        for(pattern in patterns) {
             archiveArtifacts pattern
         }
+    }
+
+    archiveStuff args.archivePatterns
+    if(args.containsKey('buildDir')) {
+        archiveStuff args.buildArchivePatterns
     }
 }
 
