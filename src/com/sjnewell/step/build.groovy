@@ -59,6 +59,7 @@ def execute(args) {
         catch(err) {
             // compilation failure, fail build
             currentBuild.result = "FAILED"
+            throw err
         }
 
         if(args.containsKey('countWarnings') && args.countWarnings) {
