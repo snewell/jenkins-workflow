@@ -1,6 +1,6 @@
 package com.sjnewell.step;
 
-def execute(args) {
+def call(args) {
     def archiveStuff = { patterns ->
         for(pattern in patterns) {
             archiveArtifacts pattern

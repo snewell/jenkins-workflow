@@ -36,7 +36,7 @@ package com.sjnewell.step;
 //   A "test" target is available.
 //
 
-def execute(args) {
+def call(args) {
     stage('Test') {
         def buildPrefix = ''
 

@@ -8,7 +8,7 @@ package com.sjnewell.step;
 //      projectName: 'latex-common',
 //      target: 'foo'])
 
-def execute(args) {
+def call(args) {
     if(args.containsKey('copyArtifacts')) {
         args.copyArtifacts.each{ info ->
             def arguments = [$class: 'CopyArtifact']

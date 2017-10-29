@@ -22,7 +22,7 @@ package com.sjnewell.step;
 //   }
 //
 
-def execute(args) {
+def call(args) {
     stage('Clang Tidy') {
         def outputFile = 'clang-tidy-output'
         // Chainsaw the clang-tidy command:

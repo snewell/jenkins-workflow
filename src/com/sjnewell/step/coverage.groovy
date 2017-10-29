@@ -33,7 +33,7 @@ package com.sjnewell.step;
 //   won't be able to gather results unless tests were actually run.
 //
 
-def execute(args) {
+def call(args) {
     stage('Coverage') {
         def src = pwd()
 

@@ -9,7 +9,7 @@ package com.sjnewell.step;
 //   You need to provide a valid build directory.
 //
 
-def execute(args) {
+def call(args) {
     stage('cppcheck') {
         def outputFile = 'cppcheck-output'
         sh "cppcheck --enable=all --project=${args.buildDir}/compile_commands.json >${outputFile}"

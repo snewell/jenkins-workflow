@@ -38,7 +38,7 @@ package com.sjnewell.step;
 //   }
 //
 
-def execute(args) {
+def call(args) {
     stage('Configure') {
         def src = pwd()
 

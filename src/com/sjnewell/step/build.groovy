@@ -31,7 +31,7 @@ package com.sjnewell.step;
 //   }
 //
 
-def execute(args) {
+def call(args) {
     stage('Build') {
         def buildPrefix = ''
         def stderrPath = ''

@@ -9,7 +9,7 @@ class scanResults {
         this.scanResultsDir = scanResultsDir
     }
 
-    def execute(args) {
+    def call(args) {
         def resultsDir = new File("${steps.pwd()}/${scanResultsDir}")
         if(!(resultsDir.list() as List).empty) {
             // directory wasn't cleared, so scan-build found something

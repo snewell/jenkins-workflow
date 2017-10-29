@@ -1,5 +1,5 @@
 
-def execute(args) {
+def call(args) {
     stage('Spellcheck') {
         def modeArg = ''
         if(args.containsKey('mode')) {

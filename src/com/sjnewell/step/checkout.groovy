@@ -22,7 +22,7 @@ package com.sjnewell.step;
 //   }
 //
 
-def execute(args) {
+def call(args) {
     stage('Checkout') {
         // build the checkout structure
 

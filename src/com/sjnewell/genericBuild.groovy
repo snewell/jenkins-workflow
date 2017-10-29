@@ -27,7 +27,7 @@ def run(data, steps) {
     node {
         def runEachStep = { localSteps ->
             localSteps.each { step ->
-                step.execute(data)
+                step(data)
             }
         }
 
