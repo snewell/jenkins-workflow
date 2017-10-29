@@ -29,8 +29,8 @@ def call(body) {
     def build = new com.sjnewell.genericBuild()
     def data = build.buildMap(config)
 
-    data.buildDir = 'build'
-    data.buildGenerator = 'Ninja'
+    build.setIfEmpty(data, 'buildDir', 'build')
+    build.setIfEmpty(data, 'buildGenerator', 'Ninja')
 
     def scanResultsDir = 'scan-results'
     data.configPrefix = "scan-build -o ${scanResultsDir}"
@@ -40,12 +40,7 @@ def call(body) {
     def requiredFlags = flags.usefulFlags()  + ' ' +
                         flags.debugFlags()   + ' ' +
                         flags.warningFlags()
-    if(config.containsKey('commonFlags')) {
-        data.commonFlags = "${requiredFlags} ${config.commonFlags}"
-    }
-    else {
-        data.commonFlags = requiredFlags
-    }
+    build.setOrAppend(data, 'commonFlags', requiredFlags)
 
     def steps = [
         new com.sjnewell.step.configure(),

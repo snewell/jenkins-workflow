@@ -35,20 +35,15 @@ def call(body) {
     def build = new com.sjnewell.genericBuild()
     def data = build.buildMap(config)
 
-    data.buildDir = 'build'
-    data.countWarnings = true
+    build.setIfEmpty(data, 'buildDir', 'build')
+    build.setIfEmpty(data, 'countWarnings', true)
 
     def flags = new com.sjnewell.compileFlags()
     def requiredFlags = flags.usefulFlags()  + ' ' +
                         flags.debugFlags()   + ' ' +
                         flags.warningFlags() + ' ' +
                         flags.coverageFlags()
-    if(config.containsKey('commonFlags')) {
-        data.commonFlags = "${requiredFlags} ${config.commonFlags}"
-    }
-    else {
-        data.commonFlags = requiredFlags
-    }
+    build.setOrAppend(data, 'commonFlags', requiredFlags)
 
     def steps = [
         new com.sjnewell.step.configure(),

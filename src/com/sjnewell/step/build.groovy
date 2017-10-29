@@ -45,6 +45,22 @@ def execute(args) {
             stderrRedirect = " 2>${stderrPath}"
         }
 
+        def archiveWarnings = {
+            if(args.containsKey('countWarnings') && args.countWarnings) {
+                // gcc/clang print the warning in the pattern [-Wname], so
+                // chainsaw it
+                //  1. grep for just the warning name
+                //  2. sort them
+                //  3. count the sorted list using uniq -c
+                def warningsCount = "${args.buildDir}/warnings.count"
+                sh "grep -o \\\\[-W..*\\\\] ${stderrPath} |" +
+                    "sort |" +
+                    "uniq -c >${warningsCount}"
+                archiveArtifacts stderrPath
+                archiveArtifacts warningsCount
+            }
+        }
+
         try {
             def frontCommand = "${buildPrefix} cmake --build ${args.buildDir}"
             if(args.containsKey('buildTargets')) {
@@ -59,21 +75,9 @@ def execute(args) {
         catch(err) {
             // compilation failure, fail build
             currentBuild.result = "FAILED"
+            archiveWarnings()
             throw err
         }
-
-        if(args.containsKey('countWarnings') && args.countWarnings) {
-            // gcc/clang print the warning in the pattern [-Wname], so
-            // chainsaw it
-            //  1. grep for just the warning name
-            //  2. sort them
-            //  3. count the sorted list using uniq -c
-            def warningsCount = "${args.buildDir}/warnings.count"
-            sh "grep -o \\\\[-W..*\\\\] ${stderrPath} |" +
-                "sort |" +
-                "uniq -c >${warningsCount}"
-            archiveArtifacts stderrPath
-            archiveArtifacts warningsCount
-        }
+        archiveWarnings()
     }
 }

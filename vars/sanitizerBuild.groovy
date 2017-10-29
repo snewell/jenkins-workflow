@@ -27,22 +27,17 @@ def call(body) {
     def build = new com.sjnewell.genericBuild()
     def data = build.buildMap(config)
 
-    data.buildDir = 'build'
-    data.buildGenerator = 'Ninja'
-    data.cc = 'clang'
-    data.cxx = 'clang++'
+    build.setIfEmpty(data, 'buildDir', 'build')
+    build.setIfEmpty(data, 'buildGenerator', 'Ninja')
+    build.setIfEmpty(data, 'cc', 'clang')
+    build.setIfEmpty(data, 'cxx', 'clang++')
 
     def flags = new com.sjnewell.compileFlags()
     def requiredFlags = flags.usefulFlags()  + ' ' +
                         flags.debugFlags()   + ' ' +
                         flags.warningFlags() + ' ' +
                         flags.sanitizerFlags(body.sanitizer)
-    if(config.containsKey('commonFlags')) {
-        data.commonFlags = "${requiredFlags} ${config.commonFlags}"
-    }
-    else {
-        data.commonFlags = requiredFlags
-    }
+    build.setOrAppend(data, 'commonFlags', requiredFlags)
 
     def steps = [
         new com.sjnewell.step.configure(),

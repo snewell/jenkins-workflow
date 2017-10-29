@@ -8,6 +8,21 @@ def buildMap(data) {
     return ret
 }
 
+def setIfEmpty(data, key, value) {
+    if(!data.containsKey(key)) {
+        data[key] = value
+    }
+}
+
+def setOrAppend(data, key, value) {
+    if(data.containsKey(key)) {
+        data[key] += " ${value}"
+    }
+    else {
+        data[key] = value
+    }
+}
+
 def run(data, steps) {
     node {
         def runEachStep = { localSteps ->

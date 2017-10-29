@@ -23,7 +23,7 @@ def call(body) {
 
     def build = new com.sjnewell.genericBuild()
     def data = build.buildMap(config)
-    data.buildDir = 'build'
+    build.setIfEmpty(data, 'buildDir', 'build')
     data.export = true
 
     def steps = [
