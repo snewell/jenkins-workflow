@@ -1,4 +1,4 @@
-// Run clang-tidy against a project.
+// Run cppcheck against a project.
 //
 // DEPENDENCIES:
 //   - cmake

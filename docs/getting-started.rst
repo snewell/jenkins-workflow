@@ -8,8 +8,9 @@ flexible enough that it's usable in a general sense.
 Installing
 ----------
 These scripts are designed to be used via the `Pipeline Global Library`_'s
-internal git repository; it may be possible to use another method (e.g.,
-dynamic library), but those methods haven't been tested.
+internal git repository.  It should work fine as a geneirc shared library
+(nothing in the scripts assume they're part of the internal git repo), but
+that method hasn't been tested as thorougly.
 
 1. Clone this repo to a local system (:code:`git clone
    https://github.com/snewell/jenkins-workflow.git`).
@@ -56,10 +57,11 @@ an implementation detail, but a few things won't be obvious unless you check
 full build logs (reduces noise for optional things).
 
 
-Build Types
------------
+C/C++ Build Types
+-----------------
  - clangTidyBuild_ - Analyze a project using clang-tidy
  - coverageBuild_ - Build a project and calculate code coverage
+ - cppcheckBuild_ - Analyze a project using cppcheck
  - quickBuild_ - Build a project
  - sanitizerBuild_ - Build a project with a sanitizer and run tests
  - sanitizers_ - Launch a :code:`sanitizerBuild` with each supported sanitizers
@@ -71,6 +73,7 @@ Build Types
 
 .. _clangTidyBuild: builds/clangTidyBuild.rst
 .. _coverageBuild: builds/coverageBuild.rst
+.. _cppcheckBuild: builds/cppcheckBuild.rst
 .. _quickBuild: builds/quickBuild.rst
 .. _sanitizerBuild: builds/sanitizerBuild.rst
 .. _sanitizers: builds/sanitizers.rst
