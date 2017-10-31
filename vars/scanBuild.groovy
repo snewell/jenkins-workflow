@@ -34,7 +34,8 @@ def call(body) {
 
     def scanResultsDir = 'scan-results'
     data.configPrefix = "scan-build -o ${scanResultsDir}"
-    data.buildPrefix = "scan-build -o ${data.buildDir}/${scanResultsDir}"
+    data.scanResultsDir = "${data.buildDir}/${scanResultsDir}"
+    data.buildPrefix = "scan-build -o ${data.scanResultsDir}"
 
     def flags = new com.sjnewell.compileFlags()
     def requiredFlags = flags.usefulFlags()  + ' ' +
@@ -45,7 +46,7 @@ def call(body) {
     def steps = [
         new com.sjnewell.step.configure(),
         new com.sjnewell.step.build(),
-        new com.sjnewell.step.scanResults(this, "build/${scanResultsDir}")
+        new com.sjnewell.step.scanResults()
     ]
 
     build.run(data, steps)
