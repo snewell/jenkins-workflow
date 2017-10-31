@@ -26,13 +26,17 @@ def call(args) {
     stage('Clang Tidy') {
         def outputFile = 'clang-tidy-output'
         // Chainsaw the clang-tidy command:
-        //  1. find anything ending in c or cpp
-        //  2. strip out files in the build directory
-        //  3. run clang-tidy
-        sh "find . -name '*.c' -o -name '*.cpp' |" +
-           "grep -v ${args.buildDir} |" +
+        //  1. look for any files listed in the compilation database
+        //  2. use awk to just take the filename
+        //  3. remove the quotes wrapping the filename
+        //  4. remove duplicate entries (shared and static libs)
+        //  5. feed the list of files to clang-tidy via xargs
+        sh "grep file '${args.buildDir}/compile_commands.json' |" +
+           "awk '{ print \$2 }' |" +
+           "sed 's/\\\"//g' |" +
+           'sort | uniq |' +
            "xargs clang-tidy -p ${args.buildDir} " +
-           "-checks=modernize-*,performance-*,readability-* " +
+           '-checks=modernize-*,performance-*,readability-* ' +
            "-header-filter=. >${outputFile}"
         archiveArtifacts outputFile
     }
