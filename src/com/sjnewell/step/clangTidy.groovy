@@ -31,7 +31,7 @@ def call(args) {
         //  3. remove the quotes wrapping the filename
         //  4. remove duplicate entries (shared and static libs)
         //  5. feed the list of files to clang-tidy via xargs
-        sh "grep file '${args.buildDir}/compile_commands.json' |" +
+        sh "grep '[[:space:]]*\"file\"[[:space:]]*:[[:space:]]' '${args.buildDir}/compile_commands.json' |" +
            "awk '{ print \$2 }' |" +
            "sed 's/\\\"//g' |" +
            'sort | uniq |' +
