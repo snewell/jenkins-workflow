@@ -41,6 +41,11 @@ def call(args) {
            "xargs clang-tidy -p ${args.buildDir} " +
            '-checks=modernize-*,performance-*,readability-* ' +
            "-header-filter=. >${outputFile}"
+
+        def countFile = "${outputFile}.counts"
+        sh "grep -o '\\[[a-z\\-]*\\]' ${outputFile} |" +
+           "sort | uniq -c > ${countFile}"
         archiveArtifacts outputFile
+        archiveArtifacts countFile
     }
 }
