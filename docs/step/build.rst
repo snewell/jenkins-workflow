@@ -6,6 +6,8 @@ Build a configured project.
 Variables
 ---------
   - :code:`buildDir` (**required**) - The build directory to use.
+  - :code:`buildArgs` - Extra arguments to pass to the build tool; the
+    arguments will be passed without modification.
   - :code:`buildPrefix` - Something to prefix to the build command.  This
     isn't needed in most cases, but some tools (:code:`scan-build`) adjust the
     environment during a build so they can run.

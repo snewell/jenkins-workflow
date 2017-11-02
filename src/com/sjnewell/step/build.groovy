@@ -63,13 +63,18 @@ def call(args) {
 
         try {
             def frontCommand = "${buildPrefix} cmake --build ${args.buildDir}"
+
+            def buildArgs = ''
+            if(args.containsKey('buildArgs')) {
+                buildArgs = "-- ${args.buildArgs}"
+            }
             if(args.containsKey('buildTargets')) {
                 args.buildTargets.each{ target ->
-                    sh "${frontCommand} --target ${target} ${stderrRedirect}"
+                    sh "${frontCommand} --target ${target} ${buildArgs} ${stderrRedirect}"
                 }
             }
             else {
-                sh "${frontCommand} ${stderrRedirect}"
+                sh "${frontCommand} ${buildArgs} ${stderrRedirect}"
             }
         }
         catch(err) {

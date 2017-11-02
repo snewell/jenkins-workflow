@@ -28,7 +28,6 @@ def call(body) {
     def data = build.buildMap(config)
 
     build.setIfEmpty(data, 'buildDir', 'build')
-    build.setIfEmpty(data, 'buildGenerator', 'Ninja')
     build.setIfEmpty(data, 'cc', 'clang')
     build.setIfEmpty(data, 'cxx', 'clang++')
 

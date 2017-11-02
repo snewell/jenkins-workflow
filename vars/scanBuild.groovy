@@ -30,7 +30,6 @@ def call(body) {
     def data = build.buildMap(config)
 
     build.setIfEmpty(data, 'buildDir', 'build')
-    build.setIfEmpty(data, 'buildGenerator', 'Ninja')
 
     def scanResultsDir = 'scan-results'
     data.configPrefix = "scan-build -o ${scanResultsDir}"
