@@ -28,11 +28,14 @@ def call(args) {
         // Chainsaw the clang-tidy command:
         //  1. look for any files listed in the compilation database
         //  2. use awk to just take the filename
-        //  3. remove the quotes wrapping the filename
-        //  4. remove duplicate entries (shared and static libs)
-        //  5. feed the list of files to clang-tidy via xargs
+        //  3. remove any files in build directory
+        //  4. remove the quotes wrapping the filename
+        //  5. remove duplicate entries (shared and static libs)
+        //  6. feed the list of files to clang-tidy via xargs
+        def fullBuildDir = "${pwd()}/${args.buildDir}"
         sh "grep '[[:space:]]*\"file\"[[:space:]]*:[[:space:]]' '${args.buildDir}/compile_commands.json' |" +
            "awk '{ print \$2 }' |" +
+           "grep -v '${fullBuildDir}' |" +
            "sed 's/\\\"//g' |" +
            'sort | uniq |' +
            "xargs clang-tidy -p ${args.buildDir} " +
