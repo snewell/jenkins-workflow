@@ -25,12 +25,9 @@ def configure(src, buildArgs) {
     if(buildArgs.containsKey('configPrefix')) {
         args = "${buildArgs.configPrefix}"
     }
-    args += ' cmake'
+    args += ' cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1'
     if(buildArgs.containsKey('cmakeFlags')) {
         args += " ${buildArgs.cmakeFlags}"
-    }
-    if(buildArgs.containsKey('export')) {
-        args += ' -DCMAKE_EXPORT_COMPILE_COMMANDS=1'
     }
 
     // if we have C/CXX flags add the appropriate arguments

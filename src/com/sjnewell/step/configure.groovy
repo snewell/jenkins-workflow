@@ -18,8 +18,6 @@ package com.sjnewell.step;
 //     - cxx - the C++ compiler to use
 //     - configPrefix - a configuration prefix for CMake
 //     - buildGenerator - the buildGenerator to use
-//     - exportCommands - generate a compile commands file (commonly used by
-//                        other tools)
 //
 // EXAMPLE:
 //   This is designed to be part of genericBuild.
