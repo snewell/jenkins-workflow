@@ -40,37 +40,6 @@ package com.sjnewell.step;
 
 def call(args) {
     stage('Configure') {
-        def src = pwd()
-
-        cmake = new com.sjnewell.cmake()
-        if(args.containsKey('cmakeFlags')) {
-            cmake.setCMakeFlags(args.cmakeFlags)
-        }
-        if(args.containsKey('commonFlags')) {
-            cmake.setCommonFlags(args.commonFlags)
-        }
-        if(args.containsKey('cFlags')) {
-            cmake.setCFlags(args.cFlags)
-        }
-        if(args.containsKey('cxxFlags')) {
-            cmake.setCxxFlags(args.cxxFlags)
-        }
-        if(args.containsKey('cc')) {
-            cmake.setCCompiler(args.cc)
-        }
-        if(args.containsKey('cxx')) {
-            cmake.setCxxCompiler(args.cxx)
-        }
-        if(args.containsKey('configPrefix')) {
-            cmake.setPrefix(args.configPrefix)
-        }
-        if(args.containsKey('buildGenerator')) {
-            cmake.setGenerator(args.buildGenerator)
-        }
-        if(args.containsKey('export') && args.export) {
-            cmake.exportCompileCommands()
-        }
-
         def buildEnvArray = { input, suffix ->
             ret = []
             input.each { pattern ->
@@ -80,6 +49,10 @@ def call(args) {
             }
             return ret
         }
+
+        cmake = new com.sjnewell.cmake()
+
+        def cmakeCommand = cmake.configure(pwd(), args)
 
         // build lists of array overrides and appends
         def envOverride = []
@@ -100,21 +73,21 @@ def call(args) {
                 withEnv(envOverride) {
                     if(envAppend) {
                         withEnv(envAppend) {
-                            cmake.configure(src)
+                            sh cmakeCommand
                         }
                     }
                     else {
-                        cmake.configure(src)
+                        sh cmakeCommand
                     }
                 }
             }
             else if(envAppend) {
                 withEnv(envAppend) {
-                    cmake.configure(src)
+                    sh cmakeCommand
                 }
             }
             else {
-                cmake.configure(src)
+                sh cmakeCommand
             }
         }
     }
