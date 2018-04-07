@@ -42,6 +42,7 @@ def run(data, steps) {
 
         // and the post-build stuff that everything needs
         runEachStep([
+            new com.sjnewell.step.package(),
             new com.sjnewell.step.archive()
         ])
     }

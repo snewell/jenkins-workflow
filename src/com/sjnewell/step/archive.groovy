@@ -9,7 +9,9 @@ def call(args) {
 
     archiveStuff args.archivePatterns
     if(args.containsKey('buildDir')) {
-        archiveStuff args.buildArchivePatterns
+        dir(args.buildDir) {
+            archiveStuff args.buildArchivePatterns
+        }
     }
 }
 

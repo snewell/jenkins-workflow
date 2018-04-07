@@ -51,6 +51,12 @@ def configure(src, buildArgs) {
         args += " -G ${buildArgs.buildGenerator}"
     }
 
+    if(buildArgs.containsKey('cmakeArgs')) {
+        for(arg in buildArgs['cmakeArgs']) {
+            args += " ${arg}"
+        }
+    }
+
     // configure it
     return "${args} ${src}"
 }
