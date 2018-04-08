@@ -33,6 +33,9 @@ def call(args) {
             // looks like it can do mulitple checkouts in example...
             [url: args.git]
         ]
+        checkoutArgs.extensions = [
+            [$class: 'CleanCheckout']
+        ]
 
         if(args.containsKey('branch')) {
             checkoutArgs.branches = [

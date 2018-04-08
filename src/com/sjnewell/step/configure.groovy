@@ -64,7 +64,6 @@ def call(args) {
         }
 
         dir(args.buildDir) {
-            deleteDir()
             // This is ugly.
             // TODO: check if it's safe to call withEnv with an empty list
             if(envOverride) {
