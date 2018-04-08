@@ -19,4 +19,10 @@ def call(args) {
             step(arguments)
         }
     }
+
+    if(args.containsKey('processArtifacts')) {
+        args.processArtifacts.each{ fn ->
+            fn()
+        }
+    }
 }
