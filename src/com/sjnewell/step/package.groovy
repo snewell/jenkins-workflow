@@ -7,13 +7,18 @@ def call(args) {
         },
         'cpack': {
             dir(args.buildDir) {
-                echo 'trace'
                 def command = 'cpack'
                 if(args.containsKey('cpack_args')) {
                     command += " ${args.cpack_args}"
                 }
                 sh command
             }
+        },
+        'cmake+install': {
+            withEnv(["DESTDIR=install_dir"]) {
+                sh "cmake --build ${args.buildDir} --target install"
+            }
+            sh "tar cjf ${args.buildDir}/${args.archive_file} -C ${args.buildDir}/install_dir ."
         }
     ]
 
