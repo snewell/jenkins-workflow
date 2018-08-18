@@ -46,5 +46,11 @@ def call(body) {
         new com.sjnewell.step.build()
     ]
 
+    if(data.containsKey('test') && data.test) {
+        steps += [
+            new com.sjnewell.step.test()
+        ]
+    }
+
     build.run(data, steps)
 }
