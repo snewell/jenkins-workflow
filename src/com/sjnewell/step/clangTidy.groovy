@@ -39,7 +39,11 @@ def call(args) {
            "sed 's/\\\"//g' |" +
            'sort | uniq |' +
            "xargs clang-tidy -p ${args.buildDir} " +
-           '-checks=modernize-*,performance-*,readability-* ' +
+           '-checks=' +
+                   'modernize-*,performance-*,readability-*,' +
+                   'bugprone-*,cppcoreguidelines-*,' +
+                   'cppcoreguidelines-pro-*,portability-*,misc-*,' +
+                   'cert-*,hicpp-* ' +
            "-header-filter=. >${outputFile}"
 
         def countFile = "${outputFile}.counts"
