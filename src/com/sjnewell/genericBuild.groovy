@@ -34,8 +34,8 @@ def run(data, steps) {
         // run the pre-build stuff that everything needs
         runEachStep([
             new com.sjnewell.step.checkout(),
-            new com.sjnewell.step.prepare(),
-            new com.sjnewell.step.copyArtifacts()
+            new com.sjnewell.step.copyArtifacts(),
+            new com.sjnewell.step.prepare()
         ])
 
         runEachStep(steps)
