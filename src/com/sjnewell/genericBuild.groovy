@@ -24,7 +24,7 @@ def setOrAppend(data, key, value) {
 }
 
 def run(data, steps) {
-    node {
+    def doBuild = {
         def runEachStep = { localSteps ->
             localSteps.each { step ->
                 step(data)
@@ -45,5 +45,16 @@ def run(data, steps) {
             new com.sjnewell.step.package(),
             new com.sjnewell.step.archive()
         ])
+    }
+
+    if(data.containsKey('node_label')) {
+        node(data.node_label) {
+            doBuild()
+        }
+    }
+    else {
+        node {
+            doBuild()
+        }
     }
 }
