@@ -1,8 +1,5 @@
 package com.sjnewell;
 
-import java.io.File;
-import groovy.util.FileNameFinder;
-
 // Run the CMake command.
 //   src: path to the source directory (where CMakeLists.txt lives)
 def configure(src, buildArgs) {
@@ -66,13 +63,11 @@ def configure(src, buildArgs) {
 
 def makePackageArgs(requiredPackages, rootDir) {
     def result = []
-    def finder = new FileNameFinder()
     requiredPackages.each{required ->
         def cmakeConfig = "${required}Config.cmake"
-        //def files = findFiles(glob: cmakeConfig)
-        def files = finder.getFileNames(rootDir, "**/${cmakeConfig}")
-        def file = new File(files.first())
-        result += "-D${required}_DIR=${file.getParentFile()}"
+        def files = findFiles(glob: "**/${cmakeConfig}")
+        def path = files[0].path[0..-(cmakeConfig.length() + 1)]
+        result += "-D${required}_DIR=${path}"
     }
     return result
 }
