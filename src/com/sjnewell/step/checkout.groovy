@@ -29,10 +29,18 @@ def call(args) {
         // if something besides git needs support, hopefully it can just be
         // changed here
         def checkoutArgs = [$class: 'GitSCM']
-        checkoutArgs.userRemoteConfigs = [
-            // looks like it can do mulitple checkouts in example...
-            [url: args.git]
-        ]
+
+        // looks like it can do mulitple checkouts in example...
+        if(args.containsKey('credentials')) {
+            checkoutArgs.userRemoteConfigs = [
+                [credentialsId: args.credentials, url: args.git]
+            ]
+        }
+        else {
+            checkoutArgs.userRemoteConfigs = [
+                [url: args.git]
+            ]
+        }
         checkoutArgs.extensions = [
             [$class: 'CleanCheckout']
         ]
