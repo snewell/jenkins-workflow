@@ -57,6 +57,10 @@ def configure(src, buildArgs) {
         }
     }
 
+    if(buildArgs.containsKey('srcPath')) {
+        src = "${src}/${buildArgs['srcPath']}"
+    }
+
     // configure it
     return "${args} ${src}"
 }
