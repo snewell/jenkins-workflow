@@ -13,7 +13,7 @@ def call(args) {
     stage('cppcheck') {
         def outputFile = 'cppcheck-output'
         try {
-            sh "cppcheck --enable=all --project=${args.buildDir}/compile_commands.json |" +
+            sh "cppcheck --enable=all --project=${args.buildDir}/compile_commands.json 2>&1 |" +
                "grep -v '^Checking' |" +
                "grep -v '^[[:digit:]][[:digit:]]*/[[:digit:]][[:digit:]]*' >${outputFile}"
         }
