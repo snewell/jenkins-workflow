@@ -37,8 +37,13 @@ def call(body) {
 
     def flags = new com.sjnewell.compileFlags()
     def requiredFlags = flags.usefulFlags()  + ' ' +
-                        flags.debugFlags()   + ' ' +
-                        flags.warningFlags()
+                        flags.warningFlags() + ' '
+    if(data.containsKey('release') && data.release) {
+        requiredFlags += flags.releaseFlags()
+    }
+    else {
+        requiredFlags += flags.debugFlags()
+    }
     build.setOrAppend(data, 'commonFlags', requiredFlags)
 
     def steps = [

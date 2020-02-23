@@ -20,6 +20,11 @@ def warningFlags() {
     return '-Wall -Wextra -Wshadow -pedantic'
 }
 
+// Return flags suitable for release
+def releaseFlags() {
+    return '-O2'
+}
+
 // Return flags to enable a sanitizer
 //   sanitizer: the sanitizer to enable (one of 'address', 'thread', or
 //              'undefined')
